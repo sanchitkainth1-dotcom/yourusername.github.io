@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ffe6ec, #ffd1dc);
+        overflow: hidden;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        color: #d6336c;
+        margin-bottom: 40px;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    button {
+        border: none;
+        padding: 14px 28px;
+        font-size: 1.2rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .yes-btn {
+        background: #ff4d6d;
+        color: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .yes-btn:hover {
+        transform: scale(1.08);
+    }
+
+    .no-btn {
+        background: #f8d7da;
+        color: #842029;
+        position: fixed;
+    }
+
+    /* Success screen */
+    .success {
+        display: none;
+        text-align: center;
+        animation: fadeIn 0.8s ease;
+    }
+
+    .success h1 {
+        font-size: 2.2rem;
+    }
+
+    .subtext {
+        font-size: 1.3rem;
+        color: #d6336c;
+        margin-top: 10px;
+    }
+
+    /* Heart animation */
+    .heart {
+        position: fixed;
+        font-size: 24px;
+        animation: floatUp 3s linear forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-150px);
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+</head>
+<body>
+
+<div class="container" id="main">
+    <h1 id="title">[Simu🐼] will you be my Valentine? ❤️</h1>
+    <div class="buttons">
+        <button class="yes-btn" id="yesBtn">Yes 💖</button>
+        <button class="no-btn" id="noBtn">No 💔</button>
+    </div>
+</div>
+
+<div class="success" id="success">
+    <h1>Yay! You just made me the happiest person 💕</h1>
+    <div class="subtext">Happy Valentine’s Day ❤️</div>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const main = document.getElementById("main");
+const success = document.getElementById("success");
+
+/* Move No button randomly */
+function moveNoButton() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth;
+    const maxY = window.innerHeight - btnHeight;
+
+    const randX = Math.random() * maxX;
+    const randY = Math.random() * maxY;
+
+    noBtn.style.left = randX + "px";
+    noBtn.style.top = randY + "px";
+}
+
+/* Initial position */
+moveNoButton();
+
+/* Desktop hover */
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+/* Mobile tap */
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveNoButton();
+});
+
+/* Click safety */
+noBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    moveNoButton();
+});
+
+/* YES button behavior */
+yesBtn.addEventListener("click", () => {
+    main.style.display = "none";
+    success.style.display = "block";
+    startHearts();
+});
+
+/* Heart animation */
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "❤️";
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 3000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
